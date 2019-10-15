@@ -58,6 +58,8 @@ class App extends Component {
       displayAdd:true,
       displayUpdate:false
     };
+
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
@@ -71,6 +73,7 @@ class App extends Component {
   handleChange(event) {
     this.setState({value:event.target.value});
   }
+
   async handleSubmit(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -79,11 +82,15 @@ class App extends Component {
     this.listNotes();
     this.setState({value:""});
   }
+
+
   async handleDelete(id) {
     const noteId = {"id":id};
     await API.graphql(graphqlOperation(deleteNote, noteId));
     this.listNotes();
   }
+
+
   async handleUpdate(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -92,13 +99,21 @@ class App extends Component {
     this.listNotes();
     this.setState({displayAdd:true,displayUpdate:false,value:""});
   }
+
+
   selectNote(note){
     this.setState({id:note.id,value:note.note,displayAdd:false,displayUpdate:true});
   }
+
+
+
   async listNotes(){
     const notes = await API.graphql(graphqlOperation(readNote));
     this.setState({notes:notes.data.listNotes.items});
   }
+  
+
+
   
   render() {
     const data = [].concat(this.state.notes)
@@ -112,12 +127,18 @@ class App extends Component {
       )
     return (
       <div className="App">
+
+
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Notes App</h1>
+          <h1 className="App-title">App for notes</h1>
         </header>
         <br/>
+
+
         <div className="container">
+         
+         
           {this.state.displayAdd ?
             <form onSubmit={this.handleSubmit}>
               <div className="input-group mb-3">
@@ -128,6 +149,8 @@ class App extends Component {
               </div>
             </form>
           : null }
+
+
           {this.state.displayUpdate ?
             <form onSubmit={this.handleUpdate}>
               <div className="input-group mb-3">
@@ -138,7 +161,12 @@ class App extends Component {
               </div>
             </form>
           : null }
+
+
         </div>
+
+
+        
         <br/>
         <div className="container">
           {data}
@@ -147,4 +175,4 @@ class App extends Component {
     );
   }
 }
-export default withAuthenticator(App, { includeGreetings: true });
+export default withAuthenticator(App, { includeGreetings: true })
