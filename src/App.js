@@ -1,10 +1,13 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { Component, Fragment } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+import {  Switch, BrowserRouter as Router, Route} from "react-router-dom";
+
 import Amplify, {API,graphqlOperation} from 'aws-amplify';
 import { withAuthenticator} from 'aws-amplify-react'; 
 import aws_exports from './aws-exports'; // specify the location of aws-exports.js file on your project
+import AddNote from './containers/AddNote';
 Amplify.configure(aws_exports);
 
 const createNote = `mutation createNote($note: String!){
@@ -126,52 +129,13 @@ class App extends Component {
       </div>
       )
     return (
-      <div className="App">
-
-
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">App for notes</h1>
-        </header>
-        <br/>
-
-
-        <div className="container">
-         
-         
-          {this.state.displayAdd ?
-            <form onSubmit={this.handleSubmit}>
-              <div className="input-group mb-3">
-                <input type="text" className="form-control form-control-lg" placeholder="New Note" aria-label="Note" aria-describedby="basic-addon2" value={this.state.value} onChange={this.handleChange}/>
-                <div className="input-group-append">
-                  <button className="btn btn-primary" type="submit">Add Note</button>
-                </div>
-              </div>
-            </form>
-          : null }
-
-
-          {this.state.displayUpdate ?
-            <form onSubmit={this.handleUpdate}>
-              <div className="input-group mb-3">
-                <input type="text" className="form-control form-control-lg" placeholder="Update Note" aria-label="Note" aria-describedby="basic-addon2" value={this.state.value} onChange={this.handleChange}/>
-                <div className="input-group-append">
-                  <button className="btn btn-primary" type="submit">Update Note</button>
-                </div>
-              </div>
-            </form>
-          : null }
-
-
-        </div>
-
-
-        
-        <br/>
-        <div className="container">
-          {data}
-        </div>
-      </div>
+     <Router>
+        <Fragment>
+            <Switch>
+               <Route exact path ='/add' component = {AddNote}/>
+             </Switch>
+      </Fragment>
+     </Router>
     );
   }
 }
