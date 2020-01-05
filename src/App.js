@@ -8,6 +8,9 @@ import Amplify, {API,graphqlOperation} from 'aws-amplify';
 import { withAuthenticator} from 'aws-amplify-react'; 
 import aws_exports from './aws-exports'; // specify the location of aws-exports.js file on your project
 import AddNote from './containers/AddNote';
+import DeleteNote from './containers/DeleteNote';
+import UpdateNote from './containers/UpdateNote';
+import ListNote from './containers/ListNotes';
 Amplify.configure(aws_exports);
 
 const createNote = `mutation createNote($note: String!){
@@ -119,20 +122,14 @@ class App extends Component {
 
   
   render() {
-    const data = [].concat(this.state.notes)
-      .map((item,i)=> 
-      <div className="alert alert-primary alert-dismissible show" role="alert">
-        <span key={item.i} onClick={this.selectNote.bind(this, item)}>{item.note}</span>
-        <button key={item.i} type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={this.handleDelete.bind(this, item.id)}>
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      )
     return (
      <Router>
         <Fragment>
             <Switch>
                <Route exact path ='/add' component = {AddNote}/>
+               <Route exact path ='/update' component = {UpdateNote}/>
+               <Route exact path ='/list' component = {ListNote}/>
+               <Route exact path ='/delete' component = {DeleteNote}/>
              </Switch>
       </Fragment>
      </Router>
